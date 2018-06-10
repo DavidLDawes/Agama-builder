@@ -1,5 +1,5 @@
 
-FROM monokrome/wine
+FROM alpine:latest
 
 ENV NODE_VERSION 8.11.2
 
@@ -20,6 +20,7 @@ RUN addgroup -g 1000 node \
         linux-headers \
         make \
         python \
+        wine \
   # gpg keys listed at https://github.com/nodejs/node#release-team
   && for key in \
     94AE36675C464D64BAFA68DD7434390BDBE9B9C5 \
@@ -49,6 +50,7 @@ RUN addgroup -g 1000 node \
     && rm -Rf "node-v$NODE_VERSION" \
     && rm "node-v$NODE_VERSION.tar.xz" SHASUMS256.txt.asc SHASUMS256.txt
 
+COPY bin/* /usr/local/bin/
 ENV YARN_VERSION 1.6.0
 
 RUN apk add --no-cache --virtual .build-deps-yarn curl gnupg tar \

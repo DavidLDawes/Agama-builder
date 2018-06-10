@@ -4,7 +4,7 @@ FROM monokrome/wine
 ENV NODE_VERSION 8.11.2
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
+    apk add --no-cache bash git openssh curl
    
 RUN addgroup -g 1000 node \
     && adduser -u 1000 -G node -s /bin/sh -D node \

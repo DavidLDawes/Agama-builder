@@ -4,9 +4,8 @@ FROM alpine:3.6
 ENV NODE_VERSION 8.11.2
 
 RUN apk update && apk upgrade && \
-    apk add --no-cache bash git openssh
+    apk add --no-cache bash git openssh wine wget
    
-RUN ["/sbin/apk.static", "add", "--update", "alpine-base", "xvfb", "wine", "wget"]
 RUN wget http://winetricks.org/winetricks && chmod +x winetricks && mv winetricks /usr/bin/winetricks
 
 RUN addgroup -g 1000 node \

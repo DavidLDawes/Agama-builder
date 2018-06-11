@@ -1,6 +1,7 @@
 FROM node:8.11-alpine
 
-RUN ["/sbin/apk.static", "add", "--update", "alpine-base", "xvfb", "wine", "wget"]
+RUN apk update && apk add --no-cache wine git
+
 RUN wget http://winetricks.org/winetricks && chmod +x winetricks && mv winetricks /usr/bin/winetricks
 								    
 ENV WINEARCH win32

@@ -1,4 +1,4 @@
-FROM node/8.11.3-slim
+FROM node/8-slim
 RUN apt -y update && \
 	DEBIAN_FRONTEND=noninteractive apt -y install software-properties-common apt-transport-https && \
 	curl -fsSL https://dl.winehq.org/wine-builds/Release.key | apt-key add - && \

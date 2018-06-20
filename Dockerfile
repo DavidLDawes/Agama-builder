@@ -5,10 +5,6 @@ RUN apt -y update && \
 	dpkg --add-architecture i386 && \
 	add-apt-repository https://dl.winehq.org/wine-builds/ubuntu/ && \
 	apt-get -y update && \
-	DEBIAN_FRONTEND=noninteractive apt-get -y install --install-recommends winehq-stable && \
-    wget https://installbuilder.bitrock.com/installbuilder-enterprise-18.5.2-linux-x64-installer.run && \
-    chmod +x installbuilder-enterprise-18.5.2-linux-x64-installer.run && \
-    ./installbuilder-enterprise-18.5.2-linux-x64-installer.run
-    
+	DEBIAN_FRONTEND=noninteractive apt-get -y install --install-recommends winehq-stable
 
 CMD [ "/bin/bash" ]

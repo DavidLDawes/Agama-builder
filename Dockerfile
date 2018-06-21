@@ -15,7 +15,7 @@ rm installbuilder-enterprise-18.5.2-linux-x64-installer.run && rm Release.key &&
 mkdir -p home && \
 ln -s opt/installbuilder-18.5.2/output/* /home/
 
-ENV PATH "$PATH:opt/installbuilder-18.5.2/bin/"
+ENV PATH "$PATH:/opt/installbuilder-18.5.2/bin/"
 WORKDIR /home
 VOLUME [ "/home/" ]
 

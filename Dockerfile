@@ -1,7 +1,7 @@
 FROM node:8-slim
 COPY auto-respond.txt auto-respond.txt
 
-RUN apt -y update && apt -y install apt-transport-https && \
+RUN apt -y update && apt -y install apt-transport-https git && \
 dpkg --add-architecture i386 && wget -nc https://dl.winehq.org/wine-builds/Release.key && \
 apt-key add Release.key && echo "deb https://dl.winehq.org/wine-builds/debian/ jessie main" >> /etc/apt/sources.list && \
 apt -y update && apt -y install --install-recommends winehq-stable &&  \ 

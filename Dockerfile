@@ -9,8 +9,10 @@ rm -rf /var/lib/apt/lists/* && \
 wget https://installbuilder.bitrock.com/installbuilder-enterprise-18.5.2-linux-x64-installer.run && \
 chmod +x installbuilder-enterprise-18.5.2-linux-x64-installer.run && \
 cat auto-respond.txt | ./installbuilder-enterprise-18.5.2-linux-x64-installer.run && \
-rm installbuilder-enterprise-18.5.2-linux-x64-installer.run && rm Release.key && mkdir -p home/output && \
-ln -s opt/installbuilder-18.5.2/output/ home/output
+rm installbuilder-enterprise-18.5.2-linux-x64-installer.run && rm Release.key && mkdir -p home && \
+ln -s opt/installbuilder-18.5.2/output/ home && \
+npm install electron-packager -g && npm install electron -g --unsafe-perm=true && \
+npm install electron-installer-debian && npm install electron-installer-redhat
 
 WORKDIR /home
 VOLUME [ "/home/" ]

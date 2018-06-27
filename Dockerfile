@@ -22,12 +22,11 @@ RUN apt-get update -qqy && apt-get install -qqy \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
-    gcloud --version 
-    
-RUN dpkg --add-architecture i386 && \
+    gcloud --version && \
+    dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/Release.key && \
     apt-key add Release.key && echo "deb https://dl.winehq.org/wine-builds/debian/ jessie main" >> /etc/apt/sources.list && \
-    apt -y update && apt -y install --install-recommends winehq-stable google-cloud-sdk &&  \ 
+    apt -y update && apt -y install --install-recommends winehq-stable &&  \ 
     apt clean && \
     rm -rf /var/lib/apt/lists/* && \
     wget https://installbuilder.bitrock.com/installbuilder-enterprise-18.5.2-linux-x64-installer.run && \

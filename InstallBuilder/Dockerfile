@@ -1,5 +1,5 @@
 FROM node:8-slim
-COPY auto-respond.txt auto-respond.txt
+COPY InstallBuilder/auto-respond.txt auto-respond.txt
 ENV CLOUD_SDK_VERSION 206.0.0
 
 ARG INSTALL_COMPONENTS

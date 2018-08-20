@@ -24,5 +24,7 @@ RUN apk update && apk add --no-cache \
     chmod +x winetricks && \
     mv winetricks /usr/bin/winetricks
 
-COPY bin/* /usr/local/bin/
+COPY bin /usr/local/bin
+ENV PATH /usr/local/bin:$PATH
+
 CMD ["/bin/bash"]

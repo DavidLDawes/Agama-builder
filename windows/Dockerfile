@@ -2,17 +2,17 @@ FROM node:8-slim
 ENV CLOUD_SDK_VERSION 206.0.0
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy \
-        curl \
-        gcc \
-        python-dev \
-        python-setuptools \
-        apt-transport-https \
-        lsb-release \
-        openssh-client \
-        git \
-        unzip \
-        zip \
-    && easy_install -U pip && \
+    curl \
+    gcc \
+    python-dev \
+    python-setuptools \
+    apt-transport-https \
+    lsb-release \
+    openssh-client \
+    git \
+    unzip \
+    zip && \
+    easy_install -U pip && \
     pip install -U crcmod && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
@@ -28,7 +28,5 @@ RUN apt-get update -qqy && apt-get install -qqy \
     apt-get -y update && apt-get -y install --install-recommends winehq-stable &&  \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-WORKDIR /home
-VOLUME [ "/home/" ]
 
 CMD [ "/bin/bash" ]

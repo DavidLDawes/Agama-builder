@@ -1,30 +1,34 @@
-FROM node:8.11-alpine
-ENV CLOUD_SDK_VERSION 212.0.0
-ENV PATH /google-cloud-sdk/bin:$PATH
-
-RUN apk update && apk add --no-cache \
-    git \
-    bash \
-    curl \
-    python \
-    py-crcmod \
-    libc6-compat \
-    openssh-client \
-    wine \
-    wget && \
-    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    ln -s /lib /lib64 && \
+FROM node:8-slim
+ENV CLOUD_SDK_VERSION 206.0.0
+ARG INSTALL_COMPONENTS
+RUN apt-get update -qqy && apt-get install -qqy \
+        curl \
+        gcc \
+        python-dev \
+        python-setuptools \
+        apt-transport-https \
+        lsb-release \
+        openssh-client \
+        git \
+        unzip \
+        zip \
+    && easy_install -U pip && \
+    pip install -U crcmod && \
+    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+    echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update && apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
     gcloud --version && \
-    wget http://winetricks.org/winetricks && \
-    chmod +x winetricks && \
-    mv winetricks /usr/bin/winetricks
+    dpkg --add-architecture i386 && \
+    wget -nc https://dl.winehq.org/wine-builds/Release.key && \
+    apt-key add Release.key && echo "deb https://dl.winehq.org/wine-builds/debian/ jessie main" >> /etc/apt/sources.list && \
+    apt-get -y update && apt-get -y install --install-recommends winehq-stable &&  \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+WORKDIR /home
+VOLUME [ "/home/" ]
 
-COPY bin /usr/local/bin
-ENV PATH /usr/local/bin:$PATH
-
-CMD ["/bin/bash"]
+CMD [ "/bin/bash" ]

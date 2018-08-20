@@ -1,6 +1,7 @@
 FROM node:8.11-alpine
 ENV CLOUD_SDK_VERSION 212.0.0
 ENV PATH /google-cloud-sdk/bin:$PATH
+
 RUN apk update && apk add --no-cache \
     git \
     bash \
@@ -18,6 +19,10 @@ RUN apk update && apk add --no-cache \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
-    gcloud --version
-RUN wget http://winetricks.org/winetricks && chmod +x winetricks && mv winetricks /usr/bin/winetricks 
+    gcloud --version && \
+    wget http://winetricks.org/winetricks && \
+    chmod +x winetricks && \
+    mv winetricks /usr/bin/winetricks
+
+COPY bin/* /usr/local/bin/
 CMD ["/bin/bash"]

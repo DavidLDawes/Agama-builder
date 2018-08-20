@@ -18,9 +18,6 @@ RUN apk update && apk add --no-cache \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
-    gcloud --version && \
-    wget http://winetricks.org/winetricks && \
-    chmod +x winetricks && \
-    mv winetricks /usr/bin/winetricks
-
+    gcloud --version
+RUN wget http://winetricks.org/winetricks && chmod +x winetricks && mv winetricks /usr/bin/winetricks 
 CMD ["/bin/bash"]

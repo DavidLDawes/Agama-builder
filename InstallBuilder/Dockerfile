@@ -1,4 +1,4 @@
-FROM debian:9.5-slim
+FROM ubuntu:bionic
 COPY auto-respond.txt auto-respond.txt
 ENV CLOUD_SDK_VERSION 206.0.0
 

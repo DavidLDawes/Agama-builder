@@ -1,22 +1,28 @@
-FROM node:8.11-alpine
-ENV CLOUD_SDK_VERSION 212.0.0
-ENV PATH /google-cloud-sdk/bin:$PATH
-RUN apk update && apk add --no-cache \
-    git \
-    bash \
+FROM node:8-slim
+ENV CLOUD_SDK_VERSION 206.0.0
+ARG INSTALL_COMPONENTS
+RUN apt-get update -qqy && apt-get install -qqy \
     curl \
-    python \
-    py-crcmod \
-    libc6-compat \
+    gcc \
+    python-dev \
+    python-setuptools \
+    apt-transport-https \
+    lsb-release \
     openssh-client \
-    && \
-    curl -O https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    tar xzf google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    rm google-cloud-sdk-${CLOUD_SDK_VERSION}-linux-x86_64.tar.gz && \
-    ln -s /lib /lib64 && \
+    git \
+    unzip \
+    zip && \
+    easy_install -U pip && \
+    pip install -U crcmod && \
+    export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
+    echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" > /etc/apt/sources.list.d/google-cloud-sdk.list && \
+    curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key add - && \
+    apt-get update && apt-get install -y google-cloud-sdk=${CLOUD_SDK_VERSION}-0 $INSTALL_COMPONENTS && \
     gcloud config set core/disable_usage_reporting true && \
     gcloud config set component_manager/disable_update_check true && \
     gcloud config set metrics/environment github_docker_image && \
-    gcloud --version
-
-CMD ["/bin/bash"]
+    gcloud --version && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+CMD [ "/bin/bash" ]
+    

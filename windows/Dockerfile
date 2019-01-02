@@ -24,7 +24,7 @@ RUN apt-get update -qqy && apt-get install -qqy \
     gcloud --version && \
     dpkg --add-architecture i386 && \
     wget -nc https://dl.winehq.org/wine-builds/Release.key && \
-    apt-key add Release.key && echo "deb https://dl.winehq.org/wine-builds/debian/ jessie main" >> /etc/apt/sources.list && \
+    apt-key add Release.key && echo "deb https://dl.winehq.org/wine-builds/debian/ stretch main" >> /etc/apt/sources.list && \
     apt-get -y update && apt-get -y install --install-recommends winehq-stable &&  \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*

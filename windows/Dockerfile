@@ -15,7 +15,7 @@ RUN apt-get update -qqy && apt-get install -qqy --no-install-recommends  apt-uti
     git \
     unzip \
     zip && \
-    apt-get -y update && apt-get -y install --install-recommends wine &&
+    apt-get -y update && apt-get -y install --install-recommends wine && \
     easy_install -U pip && \
     pip install -U crcmod && \
     export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \

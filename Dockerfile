@@ -1,4 +1,4 @@
-FROM node:8-slim
+FROM node:10.15.0-stretch-slim
 ENV CLOUD_SDK_VERSION 206.0.0
 ARG INSTALL_COMPONENTS
 RUN apt-get update -qqy && apt-get install -qqy \

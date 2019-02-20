@@ -12,6 +12,7 @@ RUN apt-get update -qqy && apt-get install -qqy \
     git \
     unzip \
     libgtk-3-dev \
+    libnss3 \
     libxss1 \
     zip && \
     easy_install -U pip && \

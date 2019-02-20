@@ -11,6 +11,7 @@ RUN apt-get update -qqy && apt-get install -qqy \
     openssh-client \
     git \
     unzip \
+    libgtk-3-dev \
     zip && \
     easy_install -U pip && \
     pip install -U crcmod && \

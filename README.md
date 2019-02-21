@@ -156,5 +156,70 @@ You can test the result using npm:
     > agama-app@0.5.6 start /home/Agama
     > electron .
 
+Currently I can get this far:
+
+    root@de07859fa988:/home/Agama# npm start
+    
+    > agama-app@0.5.6 start /home/Agama
+    > electron .
+    
+    
+    (electron:372): Gtk-WARNING **: cannot open display: 
+    npm ERR! code ELIFECYCLE
+    npm ERR! errno 1
+    npm ERR! agama-app@0.5.6 start: `electron .`
+    npm ERR! Exit status 1
+    (snip)
+
+Since I'm in a container, we'll need a headless capability to get it to work. 
+
+Meanwhile, we can look at packaging.
+
 ## Package Agama
-Details needed
+We'll use electron-packager to make the various flavors of the wallet.
+
+### Package For Linux
+
+    electron-packager . --platform=linux --arch=x64 --icon=assets/icons/agama_icons/128x128.png --out=build/ --buildVersion=0.11 --ignore=assets/bin/win64 --ignore=assets/bin/osx --overwrite
+    Downloading tmp-375-1-SHASUMS256.txt-3.1.4
+    [============================================>] 100.0% of 4.74 kB (4.74 kB/s)
+    Packaging app for platform linux x64 using electron v3.1.4
+    Wrote new app to build/Agama-linux-x64
+
+The result is in /home/build/Agama-linux-x64 inside the container, which maps to ~/agama-builder-docker/Agama/build/Agama-linux-x64/ outside of the container on your file system.
+
+### Package For Windows
+
+    electron-packager . --platform=win32 --arch=x64 --icon=assets/icons/agama_icons/agama_app_icon.ico --out=build/ --buildVersion=0.2 --ignore=assets/bin/osx --ignore=assets/bin/linux64 --overwrite
+    Downloading tmp-386-0-electron-v3.1.4-win32-x64.zip
+    [============================================>] 100.0% of 53.22 MB (10.14 MB/s)
+    Packaging app for platform win32 x64 using electron v3.1.4
+    Could not find "wine" on your system.
+
+    Wine is required to use the appCopyright, appVersion, buildVersion, icon, and 
+    win32metadata parameters for Windows targets.
+
+    Make sure that the "wine" executable is in your PATH.
+
+    See https://github.com/electron-userland/electron-packager#building-windows-apps-from-non-windows-platforms for details.
+
+So it looks like I need to add wine to the agama-builder container.
+
+### Package For Myarn global add mocha-headless-serverac
+
+    electron-packager . --platform=darwin --arch=x64 --icon=assets/icons/agama_icons/agama_app_icon.icns --out=build/ --buildVersion=0.2 --ignore=assets/bin/win64 --ignore=assets/bin/linux64 --overwrite
+    Downloading tmp-398-0-electron-v3.1.4-darwin-x64.zip
+    [============================================>] 100.0% of 50.21 MB (12.55 MB/s)
+    Packaging app for platform darwin x64 using electron v3.1.4
+    Wrote new app to build/Agama-darwin-x64
+
+root@de07859fa988:/home/Agama# ls build
+The result is in /home/build/Agama-darwin-x64 inside the container, which maps to  ~/agama-builder-docker/Agama/build/Agama-darwin-x64/ outside of the container on your file system. This was set by the -v command line option on the docker run command.
+
+## Headless Operation
+yarn global add mocha-headless-server
+yarn add --dev mocha-headless-server
+
+Once we have the tests using the dependency we can run them with:
+
+    mocha-headless-server test

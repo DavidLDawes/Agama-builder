@@ -14,7 +14,10 @@ RUN apt-get update -qqy && apt-get install -qqy \
     libgtk-3-dev \
     libnss3 \
     libasound2 \
+    libgconf-2-4 \
+    libxtst6 \
     libxss1 \
+    xvfb \
     zip && \
     easy_install -U pip && \
     pip install -U crcmod && \

@@ -17,6 +17,7 @@ RUN apt-get update -qqy && apt-get install -qqy \
     libgconf-2-4 \
     libxtst6 \
     libxss1 \
+    mocha \
     xvfb \
     zip && \
     easy_install -U pip && \
